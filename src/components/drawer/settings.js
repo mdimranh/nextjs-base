@@ -20,7 +20,7 @@ export function SettingsDrawer() {
       >
         <CgEditFade size={39} />
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="w-96">
         <SheetHeader>
           <SheetTitle>Appearance</SheetTitle>
           <SheetDescription>
