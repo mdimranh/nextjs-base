@@ -2,12 +2,14 @@ import Image from "next/image";
 import { SettingsDrawer } from "../drawer/settings";
 import NotificationDropdown from "../dropdown/notification";
 import ProfileMenu from "../dropdown/profile-menu";
+import { useRouter } from "next/navigation";
 // import logo from "/public/next.svg";
 import logo from "/public/logo.png";
 
 import { CreditCard, PlusCircle, Settings, User, Users } from "lucide-react";
 
 export default function TopNavigation() {
+  const router = useRouter();
   const ProfileMenuData = {
     user: {
       name: "Chelsea Hagon",
@@ -72,6 +74,7 @@ export default function TopNavigation() {
         alt="logo"
         width={35}
         height={35}
+        onClick={() => router.push("/")}
       />
       <div className="flex items-center">
         <SettingsDrawer />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import postgreslogo from "/public/logo/postgresql.svg";
@@ -6,6 +6,7 @@ import mysqllogo from "/public/logo/mysql.svg";
 import mongodblogo from "/public/logo/mongodb.svg";
 import oraclelogo from "/public/logo/oracle.svg";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,233 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { Button as LButton } from "./../../form/button";
+import { GrConnect } from "react-icons/gr";
+import { FaCircleCheck } from "react-icons/fa6";
+
+function DBForm({ onChangedata }) {
+  return (
+    <Formik
+      initialValues={{
+        name: "postgres",
+        host: "localhost",
+        port: 5432,
+        username: "postgres",
+        password: "postgres",
+        database: "",
+      }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.name) {
+          errors.name = "This field is required.";
+        }
+        if (!values.host) {
+          errors.host = "This field is required.";
+        }
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+      validateOnBlur={false}
+      validateOnChange={false}
+    >
+      {({ isSubmitting, handleChange, handleBlur, values, errors }) => {
+        useEffect(() => {
+          onChangedata(values);
+        }, [values, onChangedata]);
+
+        return (
+          <Form className="grid grid-cols-2 gap-4 py-4">
+            <div>
+              <Field name="name">
+                {({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="name" className="text-left">
+                      Name
+                    </Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      {...field} // Use Formik's field handlers here
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name} // This ensures proper state is maintained
+                      className={`col-span-3 ${
+                        errors.name
+                          ? "border-red-500" // Add red border if error exists and field is touched
+                          : ""
+                      }`}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-red-500"
+              />
+            </div>
+
+            <div>
+              <Field name="host">
+                {({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="host" className="text-left">
+                      Host
+                    </Label>
+                    <Input
+                      id="host"
+                      type="text"
+                      {...field} // Use Formik's field handlers here
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.host} // This ensures proper state is maintained
+                      className={`col-span-3 ${
+                        errors.host
+                          ? "border-red-500" // Add red border if error exists and field is touched
+                          : ""
+                      }`}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                name="host"
+                component="div"
+                className="text-red-500"
+              />
+            </div>
+
+            <div>
+              <Field name="port">
+                {({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="port" className="text-left">
+                      Port
+                    </Label>
+                    <Input
+                      id="port"
+                      type="number"
+                      {...field} // Use Formik's field handlers here
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.port} // This ensures proper state is maintained
+                      className={`col-span-3 ${
+                        errors.port
+                          ? "border-red-500" // Add red border if error exists and field is touched
+                          : ""
+                      }`}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                name="port"
+                component="div"
+                className="text-red-500"
+              />
+            </div>
+
+            <div>
+              <Field name="username">
+                {({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="username" className="text-left">
+                      Username
+                    </Label>
+                    <Input
+                      id="username"
+                      type="text"
+                      {...field} // Use Formik's field handlers here
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.username} // This ensures proper state is maintained
+                      className={`col-span-3 ${
+                        errors.username
+                          ? "border-red-500" // Add red border if error exists and field is touched
+                          : ""
+                      }`}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                name="username"
+                component="div"
+                className="text-red-500"
+              />
+            </div>
+
+            <div>
+              <Field name="password">
+                {({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="password" className="text-left">
+                      Password
+                    </Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      {...field} // Use Formik's field handlers here
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password} // This ensures proper state is maintained
+                      className={`col-span-3 ${
+                        errors.password
+                          ? "border-red-500" // Add red border if error exists and field is touched
+                          : ""
+                      }`}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500"
+              />
+            </div>
+
+            <div>
+              <Field name="database">
+                {({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="database" className="text-left">
+                      Database
+                    </Label>
+                    <Input
+                      id="database"
+                      type="database"
+                      {...field} // Use Formik's field handlers here
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.database} // This ensures proper state is maintained
+                      className={`col-span-3 ${
+                        errors.database
+                          ? "border-red-500" // Add red border if error exists and field is touched
+                          : ""
+                      }`}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                name="database"
+                component="div"
+                className="text-red-500"
+              />
+            </div>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+}
+
 function DatabaseForm({
   onClick,
   dbname,
@@ -43,6 +271,27 @@ function DatabaseForm({
   const [password, setPassword] = useState("");
   const [database, setDatabase] = useState("");
   const [enabled, setEnabled] = useState(false);
+
+  const [dbConnecting, setDBConnecting] = useState(false);
+  const [connected, setConnected] = useState(false);
+
+  const [data, setData] = useState({});
+
+  const ConnectDatabase = async (data) => {
+    setDBConnecting(true);
+    fetch("http://localhost:8080/database/connect", {
+      method: "post",
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.status < 400 ? setConnected(true) : setConnected(false);
+      setDBConnecting(false);
+    });
+  };
+
+  const handleChangeData = (data) => {
+    setData(data);
+  };
+
   return (
     <div className="w-full">
       {expand ? (
@@ -61,100 +310,29 @@ function DatabaseForm({
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4 py-4">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="name" className="text-left">
-                  Name
-                </Label>
-                <Input
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="host" className="text-left">
-                  Host
-                </Label>
-                <Input
-                  id="host"
-                  value={host}
-                  onChange={(e) => setHost(e.target.value)}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="port" className="text-left">
-                  Port
-                </Label>
-                <Input
-                  type="number"
-                  id="port"
-                  value={port}
-                  onChange={(e) => setPort(e.target.value)}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="username" className="text-left">
-                  Username
-                </Label>
-                <Input
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="password" className="text-left">
-                  Password
-                </Label>
-                <Input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="database" className="text-left">
-                  Database
-                </Label>
-                <Input
-                  id="database"
-                  value={database}
-                  onChange={(e) => setDatabase(e.target.value)}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="flex items-center gap-4">
-                <Label htmlFor="enabled" className="text-left">
-                  Enable
-                </Label>
-                <div className="flex w-full items-end">
-                  <Switch
-                    id="enabled"
-                    checked={enabled}
-                    onCheckedChange={(checked) => setEnabled(checked)}
-                  />
-                </div>
-              </div>
-            </div>
+            <DBForm onChangedata={handleChangeData} />
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button
               variant="outline"
               onClick={() => {
-                console.log("Back button clicked");
                 onBack();
               }}
             >
               <IoMdArrowRoundBack className="mr-2 h-4 w-4" /> Cancel
             </Button>
-            <Button>Connect</Button>
+            <LButton
+              onClick={() => {
+                ConnectDatabase(data);
+              }}
+              label="Connect"
+              loadingLabel="Connecting"
+              successLabel="Reconnect"
+              icon={<GrConnect className="w-5 h-5" />}
+              successIcon={<FaCircleCheck className="w-5 h-5" />}
+              success={connected}
+              loading={dbConnecting}
+            />
           </CardFooter>
           <div className="absolute -top-10 -right-16 opacity-[0.03] -z-10">
             <Image src={logo} alt="logo" width={400} height={320} />
